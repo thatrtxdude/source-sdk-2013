@@ -1,0 +1,4 @@
+..\..\..\game\hl2\shaders\fxc\ssao_ps30.vcs
+..\..\..\game\hl2\shaders\fxc\ssao_vs30.vcs
+..\..\..\game\hl2\shaders\fxc\ssao_combine_ps30.vcs
+..\..\..\game\hl2\shaders\fxc\ssao_combine_vs30.vcs

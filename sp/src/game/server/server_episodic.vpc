@@ -47,6 +47,8 @@ $Project "Server (Episodic)"
 		$File	"vehicle_choreo_generic.cpp"
 		$File	"$SRCDIR\game\shared\vehicle_choreo_generic_shared.h"
 		$File	"$SRCDIR\game\shared\weapon_parse_default.cpp"
+		$File	"actual_bullet.cpp"
+		$File	"actual_bullet.h"
 
 		$Folder	"HL2 DLL"
 		{

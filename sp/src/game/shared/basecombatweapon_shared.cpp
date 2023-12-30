@@ -2488,9 +2488,16 @@ bool CBaseCombatWeapon::ReloadsSingly( void ) const
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-bool CBaseCombatWeapon::Reload( void )
+bool CBaseCombatWeapon::Reload(void)
 {
-	return DefaultReload( GetMaxClip1(), GetMaxClip2(), ACT_VM_RELOAD );
+	if (GetWpnData().bEmptyReload == false)
+	{
+		return DefaultReload(GetMaxClip1(), GetMaxClip2(), ACT_VM_RELOAD);
+	}
+	else
+	{
+		return DefaultReload(GetMaxClip1(), GetMaxClip2(), Clip1() == 0 ? ACT_VM_RELOAD_EMPTY : ACT_VM_RELOAD);
+	}
 }
 
 #ifdef MAPBASE

@@ -410,6 +410,7 @@ bool CWeaponShotgun::StartReload( void )
 	if ( pOwner->IsPlayer() )
 	{
 		static_cast<CBasePlayer*>(pOwner)->SetAnimation( PLAYER_RELOAD );
+		
 	}
 #endif
 
@@ -453,6 +454,7 @@ bool CWeaponShotgun::Reload( void )
 
 	pOwner->m_flNextAttack = gpGlobals->curtime;
 	m_flNextPrimaryAttack = gpGlobals->curtime + SequenceDuration();
+
 
 	return true;
 }
@@ -523,6 +525,9 @@ void CWeaponShotgun::Pump( void )
 	// Finish reload animation
 	SendWeaponAnim( ACT_SHOTGUN_PUMP );
 
+	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
+	pPlayer->ViewPunch(QAngle(random->RandomFloat(0, 0), random->RandomFloat(-0.5, 0.5), random->RandomFloat(-0.3, 0.3)));
+
 	pOwner->m_flNextAttack	= gpGlobals->curtime + SequenceDuration();
 	m_flNextPrimaryAttack	= gpGlobals->curtime + SequenceDuration();
 }
@@ -580,8 +585,9 @@ void CWeaponShotgun::PrimaryAttack( void )
 	
 	// Fire the bullets, and force the first shot to be perfectly accuracy
 	pPlayer->FireBullets( sk_plr_num_shotgun_pellets.GetInt(), vecSrc, vecAiming, GetBulletSpread(), MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 0, -1, -1, 0, NULL, true, true );
-	
-	pPlayer->ViewPunch( QAngle( random->RandomFloat( -2, -1 ), random->RandomFloat( -2, 2 ), 0 ) );
+
+
+	pPlayer->ViewPunch(QAngle(random->RandomFloat(-4, -1), random->RandomFloat(-2, 2), random->RandomFloat(-2, 2)));
 
 	CSoundEnt::InsertSound( SOUND_COMBAT, GetAbsOrigin(), SOUNDENT_VOLUME_SHOTGUN, 0.2, GetOwner() );
 
@@ -648,7 +654,9 @@ void CWeaponShotgun::SecondaryAttack( void )
 #else
 	pPlayer->FireBullets( 12, vecSrc, vecAiming, GetBulletSpread(), MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 0, -1, -1, 0, NULL, false, false );
 #endif
-	pPlayer->ViewPunch( QAngle(random->RandomFloat( -5, 5 ),0,0) );
+	pPlayer->ViewPunch(QAngle(random->RandomFloat(-6, 0), random->RandomFloat(-4, 4), random->RandomFloat(-2.2, 2.2)));
+
+	pPlayer->ViewPunch(QAngle(random->RandomFloat(-7, 0), random->RandomFloat(-5, 5), random->RandomFloat(-2.6, 2.6)));
 
 	pPlayer->SetMuzzleFlashTime( gpGlobals->curtime + 1.0 );
 

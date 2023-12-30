@@ -401,6 +401,7 @@ FileWeaponInfo_t::FileWeaponInfo_t()
 	bShowUsageHint = false;
 	m_bAllowFlipping = true;
 	m_bBuiltRightHanded = true;
+	bEmptyReload = true;
 #ifdef MAPBASE
 	m_flViewmodelFOV = 0.0f;
 	m_flBobScale = 1.0f;
@@ -417,6 +418,9 @@ extern ConVar hud_fastswitch;
 
 void FileWeaponInfo_t::Parse( KeyValues *pKeyValuesData, const char *szWeaponName )
 {
+	// Pepega
+	bEmptyReload = pKeyValuesData->GetBool("empty_reload", true);
+
 	// Okay, we tried at least once to look this up...
 	bParsedScript = true;
 

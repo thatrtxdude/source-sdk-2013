@@ -17,6 +17,7 @@
 #include "game.h"
 #include "vstdlib/random.h"
 #include "gamestats.h"
+#include "actual_bullet.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -423,6 +424,15 @@ void CWeaponPistol::PrimaryAttack( void )
 	}
 
 	BaseClass::PrimaryAttack();
+
+	FireBulletsInfo_t info;
+	info.m_iAmmoType = m_iPrimaryAmmoType;
+	info.m_iShots = 1;
+	info.m_vecSrc = pPlayer->Weapon_ShootPosition();
+	info.m_vecDirShooting = pPlayer->GetAutoaimVector(AUTOAIM_SCALE_DEFAULT);
+	info.m_vecSpread = GetBulletSpread();
+	info.m_pAttacker = GetOwnerEntity();
+
 
 	// Add an accuracy penalty which can move past our maximum penalty time if we're really spastic
 	m_flAccuracyPenalty += PISTOL_ACCURACY_SHOT_PENALTY_TIME;

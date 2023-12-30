@@ -334,6 +334,10 @@ public:
 	
 	void  HandleSpeedChanges( void );
 
+	void  HandleThrowGrenade(void);
+	void  ThrowGrenade(void);
+	void  CreateGrenade(void);
+
 	void SetControlClass( Class_T controlClass ) { m_nControlClass = controlClass; }
 	
 	void StartWaterDeathSounds( void );
@@ -441,6 +445,11 @@ private:
 	float				m_flTimeNextLadderHint;	// Next time we're eligible to display a HUD hint about a ladder.
 	
 	friend class CHL2GameMovement;
+
+	float				timeholster;
+	float				timethrow;
+	float				timedeploy;
+	bool				WantThrow;
 
 #ifdef SP_ANIM_STATE
 	CSinglePlayerAnimState* m_pPlayerAnimState;
