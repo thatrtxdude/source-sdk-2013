@@ -425,13 +425,6 @@ void CWeaponPistol::PrimaryAttack( void )
 
 	BaseClass::PrimaryAttack();
 
-	FireBulletsInfo_t info;
-	info.m_iAmmoType = m_iPrimaryAmmoType;
-	info.m_iShots = 1;
-	info.m_vecSrc = pPlayer->Weapon_ShootPosition();
-	info.m_vecDirShooting = pPlayer->GetAutoaimVector(AUTOAIM_SCALE_DEFAULT);
-	info.m_vecSpread = GetBulletSpread();
-	info.m_pAttacker = GetOwnerEntity();
 
 
 	// Add an accuracy penalty which can move past our maximum penalty time if we're really spastic
