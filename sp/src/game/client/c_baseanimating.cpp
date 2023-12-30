@@ -3613,6 +3613,11 @@ void C_BaseAnimating::ProcessMuzzleFlashEvent()
 			int originalG = 219;
 			int originalB = 14;
 
+			// Randomize color components within the range of +/- 20
+			dl->color.r = originalR;
+			dl->color.g = originalG;
+			dl->color.b = originalB;
+
 			// Randomize the die value by +/- 0.01
 			dl->die = gpGlobals->curtime + 0.05f + random->RandomFloat(-0.01f, 0.01f);
 			dl->radius = random->RandomFloat(245.0f, 256.0f);
