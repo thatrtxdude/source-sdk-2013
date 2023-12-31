@@ -32,7 +32,7 @@ ConVar csm_color_a("csm_color_a", "255");
 
 
 ConVar csm_filter("csm_filter", "1");
-ConVar csm_enable("csm_enable", "1");
+ConVar csm_enable("csm_enable", "0");
 
 //-----------------------------------------------------------------------------
 // Purpose: main point for change angle of the light
