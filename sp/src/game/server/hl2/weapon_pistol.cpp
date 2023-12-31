@@ -29,9 +29,9 @@
 #define	PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME	1.5f	// Maximum penalty to deal out
 
 ConVar	pistol_use_new_accuracy( "pistol_use_new_accuracy", "1" );
-ConVar cl_pistol_primarybob_static_x("cl_pistol_primarybob_static_x", "0", 0, "Intensity of the gun (static) bobbing on the x-axis");
+ConVar cl_pistol_primarybob_static_x("cl_pistol_primarybob_static_x", "-0.3", 0, "Intensity of the gun (static) bobbing on the x-axis");
 ConVar cl_pistol_primarybob_static_y("cl_pistol_primarybob_static_y", "0", 0, "Intensity of the gun (static) bobbing on the y-axis");
-ConVar cl_pistol_primarybob_static_z("cl_pistol_primarybob_static_z", "0", 0, "Intensity of the gun (static) bobbing on the z-axis");
+ConVar cl_pistol_primarybob_static_z("cl_pistol_primarybob_static_z", "0.3", 0, "Intensity of the gun (static) bobbing on the z-axis");
 
 //-----------------------------------------------------------------------------
 // CWeaponPistol
