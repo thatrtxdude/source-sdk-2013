@@ -2077,7 +2077,7 @@ void CBaseCombatWeapon::ItemPreFrame( void )
 #endif
 }
 
-
+/*
 void CBaseCombatWeapon::ProcessAnimationEvents(void)
 {
 	CBasePlayer *pOwner = ToBasePlayer(GetOwner());
@@ -2109,6 +2109,8 @@ void CBaseCombatWeapon::ProcessAnimationEvents(void)
 		}
 	}
 }
+*/
+// Pretty buggy. Will reimplement with actual running animations.
 
 //====================================================================================
 // WEAPON BEHAVIOUR
@@ -2119,7 +2121,7 @@ void CBaseCombatWeapon::ItemPostFrame( void )
 	if (!pOwner)
 		return;
 
-	ProcessAnimationEvents();
+	//ProcessAnimationEvents();
 	UpdateAutoFire();
 
 	//Track the duration of the fire
