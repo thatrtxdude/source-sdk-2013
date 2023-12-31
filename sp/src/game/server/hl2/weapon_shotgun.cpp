@@ -25,6 +25,8 @@
 extern ConVar sk_auto_reload_time;
 extern ConVar sk_plr_num_shotgun_pellets;
 
+ConVar cl_shotgun_primary_disableRnd("cl_shotgun_primary_disableRnd", "0", FCVAR_ARCHIVE, "Disables Random Viewpunch");
+
 //Pumpbob convars
 ConVar cl_shotgun_pumpbob_x("cl_shotgun_pumpbob_x", "0", 0, "Intensity of the pump bobbing on the x-axis");
 ConVar cl_shotgun_pumpbob_y("cl_shotgun_pumpbob_y", "-0.3", 0, "Intensity of the pump bobbing on the y-axis");
@@ -38,6 +40,10 @@ ConVar cl_shotgun_primarybob_min_z("cl_shotgun_primarybob_min_z", "0", 0, "Inten
 ConVar cl_shotgun_primarybob_max_x("cl_shotgun_primarybob_max_x", "-3", 0, "Intensity of the gun (max) bobbing on the x-axis");
 ConVar cl_shotgun_primarybob_max_y("cl_shotgun_primarybob_max_y", "-2.6", 0, "Intensity of the gun (max) bobbing on the y-axis");
 ConVar cl_shotgun_primarybob_max_z("cl_shotgun_primarybob_max_z", "-1.2", 0, "Intensity of the gun (max) bobbing on the z-axis");
+
+ConVar cl_shotgun_primarybob_static_x("cl_shotgun_primarybob_static_x", "0", 0, "Intensity of the gun (static) bobbing on the x-axis");
+ConVar cl_shotgun_primarybob_static_y("cl_shotgun_primarybob_static_y", "0", 0, "Intensity of the gun (static) bobbing on the y-axis");
+ConVar cl_shotgun_primarybob_static_z("cl_shotgun_primarybob_static_z", "0", 0, "Intensity of the gun (static) bobbing on the z-axis");
 
 
 #ifdef MAPBASE
@@ -616,7 +622,18 @@ void CWeaponShotgun::PrimaryAttack( void )
 	float max_yoffset = cl_shotgun_primarybob_max_y.GetFloat();
 	float max_zoffset = cl_shotgun_primarybob_max_z.GetFloat();
 
-	pPlayer->ViewPunch(QAngle(random->RandomFloat(min_xoffset, max_xoffset), random->RandomFloat(min_yoffset, max_yoffset), random->RandomFloat(min_zoffset, max_zoffset)));
+	float static_xoffset = cl_shotgun_primarybob_static_x.GetFloat();
+	float static_yoffset = cl_shotgun_primarybob_static_y.GetFloat();
+	float static_zoffset = cl_shotgun_primarybob_static_z.GetFloat();
+
+	
+	if (cl_shotgun_primary_disableRnd.GetBool()) {
+		pPlayer->ViewPunch(QAngle(static_xoffset, static_yoffset, static_zoffset));
+	}
+	else{
+		pPlayer->ViewPunch(QAngle(random->RandomFloat(min_xoffset, max_xoffset), random->RandomFloat(min_yoffset, max_yoffset), random->RandomFloat(min_zoffset, max_zoffset)));
+	}
+	
 
 	CSoundEnt::InsertSound( SOUND_COMBAT, GetAbsOrigin(), SOUNDENT_VOLUME_SHOTGUN, 0.2, GetOwner() );
 
