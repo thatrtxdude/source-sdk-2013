@@ -29,6 +29,9 @@
 #define	PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME	1.5f	// Maximum penalty to deal out
 
 ConVar	pistol_use_new_accuracy( "pistol_use_new_accuracy", "1" );
+ConVar cl_pistol_primarybob_static_x("cl_pistol_primarybob_static_x", "0", 0, "Intensity of the gun (static) bobbing on the x-axis");
+ConVar cl_pistol_primarybob_static_y("cl_pistol_primarybob_static_y", "0", 0, "Intensity of the gun (static) bobbing on the y-axis");
+ConVar cl_pistol_primarybob_static_z("cl_pistol_primarybob_static_z", "0", 0, "Intensity of the gun (static) bobbing on the z-axis");
 
 //-----------------------------------------------------------------------------
 // CWeaponPistol
@@ -423,6 +426,8 @@ void CWeaponPistol::PrimaryAttack( void )
 		pOwner->ViewPunchReset();
 	}
 
+
+
 	BaseClass::PrimaryAttack();
 
 
@@ -539,12 +544,9 @@ void CWeaponPistol::AddViewKick( void )
 	if ( pPlayer == NULL )
 		return;
 
-	QAngle	viewPunch;
+	float static_xoffset = cl_pistol_primarybob_static_x.GetFloat();
+	float static_yoffset = cl_pistol_primarybob_static_y.GetFloat();
+	float static_zoffset = cl_pistol_primarybob_static_z.GetFloat();
 
-	viewPunch.x = random->RandomFloat( 0.25f, 0.5f );
-	viewPunch.y = random->RandomFloat( -.6f, .6f );
-	viewPunch.z = 0.0f;
-
-	//Add it to the view punch
-	pPlayer->ViewPunch( viewPunch );
+	pPlayer->ViewPunch(QAngle(static_xoffset, static_yoffset, static_zoffset));
 }
