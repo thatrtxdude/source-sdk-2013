@@ -69,6 +69,7 @@ bool ToolFramework_SetupEngineMicrophone( Vector &origin, QAngle &angles );
 
 
 extern ConVar default_fov;
+ConVar cl_camera_anim_intensity("cl_camera_anim_intensity", "1.0", FCVAR_ARCHIVE, "Intensity of cambone animations");
 extern bool g_bRenderingScreenshot;
 
 #if !defined( _X360 )
@@ -1102,6 +1103,7 @@ void CViewRender::Render( vrect_t *rect )
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 
 
+
     // Set for console commands, etc.
     render->SetMainView ( m_View.origin, m_View.angles );
 
@@ -1247,6 +1249,8 @@ void CViewRender::Render( vrect_t *rect )
 		    }
 	    }
 
+
+
 	    // Determine if we should draw view model ( client mode override )
 	    bool drawViewModel = g_pClientMode->ShouldDrawViewModel();
 
@@ -1280,6 +1284,43 @@ void CViewRender::Render( vrect_t *rect )
 		{
 			// we should use the monitor view from the left eye for both eyes
 			flags |= RENDERVIEW_SUPPRESSMONITORRENDERING;
+		}
+
+		//--------------------------------
+		// Handle camera anims
+		//--------------------------------
+
+		if (!UseVR() && pPlayer && cl_camera_anim_intensity.GetFloat() > 0)
+		{
+			if (pPlayer->GetViewModel(0))
+			{
+				int attachment = pPlayer->GetViewModel(0)->LookupAttachment("camera");
+				if (attachment != -1)
+				{
+
+
+					int rootBone = pPlayer->GetViewModel(0)->LookupAttachment("camera_root");
+					Vector cameraOrigin = Vector(0, 0, 0);
+					QAngle cameraAngles = QAngle(0, 0, 0);
+					Vector rootOrigin = Vector(0, 0, 0);
+					QAngle rootAngles = QAngle(0, 0, 0);
+
+					pPlayer->GetViewModel(0)->GetAttachmentLocal(attachment, cameraOrigin, cameraAngles);
+					if (rootBone != -1)
+					{
+						pPlayer->GetViewModel(0)->GetAttachmentLocal(rootBone, rootOrigin, rootAngles);
+						cameraOrigin -= rootOrigin;
+						cameraAngles -= rootAngles;
+
+						//DevMsg("camera attachment found\n"); spam console
+					}
+					else {
+						//DevMsg("camera attachment not found\n"); spam console, dont know if this even works LOL
+					}
+					view.angles += cameraAngles * cl_camera_anim_intensity.GetFloat();
+					view.origin += cameraOrigin * cl_camera_anim_intensity.GetFloat();
+				}
+			}
 		}
 
 	    RenderView( view, nClearFlags, flags );
@@ -1334,7 +1375,6 @@ void CViewRender::Render( vrect_t *rect )
 		render->VGui_Paint( PAINT_UIPANELS | PAINT_CURSOR );
 		render->PopView( GetFrustum() );
 	}
-
 
 }
 
