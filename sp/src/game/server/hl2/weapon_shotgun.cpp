@@ -35,9 +35,9 @@ ConVar cl_shotgun_primarybob_min_x("cl_shotgun_primarybob_min_x", "0", 0, "Inten
 ConVar cl_shotgun_primarybob_min_y("cl_shotgun_primarybob_min_y", "0", 0, "Intensity of the gun (min) bobbing on the y-axis");
 ConVar cl_shotgun_primarybob_min_z("cl_shotgun_primarybob_min_z", "0", 0, "Intensity of the gun (min) bobbing on the z-axis");
 
-ConVar cl_shotgun_primarybob_max_x("cl_shotgun_primarybob_max_x", "0.5", 0, "Intensity of the gun (max) bobbing on the x-axis");
-ConVar cl_shotgun_primarybob_max_y("cl_shotgun_primarybob_max_y", "0.5", 0, "Intensity of the gun (max) bobbing on the y-axis");
-ConVar cl_shotgun_primarybob_max_z("cl_shotgun_primarybob_max_z", "0.5", 0, "Intensity of the gun (max) bobbing on the z-axis");
+ConVar cl_shotgun_primarybob_max_x("cl_shotgun_primarybob_max_x", "-3", 0, "Intensity of the gun (max) bobbing on the x-axis");
+ConVar cl_shotgun_primarybob_max_y("cl_shotgun_primarybob_max_y", "-2.6", 0, "Intensity of the gun (max) bobbing on the y-axis");
+ConVar cl_shotgun_primarybob_max_z("cl_shotgun_primarybob_max_z", "-1.2", 0, "Intensity of the gun (max) bobbing on the z-axis");
 
 
 #ifdef MAPBASE
