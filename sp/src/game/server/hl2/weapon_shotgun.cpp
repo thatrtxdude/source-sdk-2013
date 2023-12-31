@@ -24,6 +24,22 @@
 
 extern ConVar sk_auto_reload_time;
 extern ConVar sk_plr_num_shotgun_pellets;
+
+//Pumpbob convars
+ConVar cl_shotgun_pumpbob_x("cl_shotgun_pumpbob_x", "0", 0, "Intensity of the pump bobbing on the x-axis");
+ConVar cl_shotgun_pumpbob_y("cl_shotgun_pumpbob_y", "-0.3", 0, "Intensity of the pump bobbing on the y-axis");
+ConVar cl_shotgun_pumpbob_z("cl_shotgun_pumpbob_z", "-0.4", 0, "Intensity of the pump bobbing on the z-axis");
+
+//PrimaryAttack Bob
+ConVar cl_shotgun_primarybob_min_x("cl_shotgun_primarybob_min_x", "0", 0, "Intensity of the gun (min) bobbing on the x-axis");
+ConVar cl_shotgun_primarybob_min_y("cl_shotgun_primarybob_min_y", "0", 0, "Intensity of the gun (min) bobbing on the y-axis");
+ConVar cl_shotgun_primarybob_min_z("cl_shotgun_primarybob_min_z", "0", 0, "Intensity of the gun (min) bobbing on the z-axis");
+
+ConVar cl_shotgun_primarybob_max_x("cl_shotgun_primarybob_max_x", "0.5", 0, "Intensity of the gun (max) bobbing on the x-axis");
+ConVar cl_shotgun_primarybob_max_y("cl_shotgun_primarybob_max_y", "0.5", 0, "Intensity of the gun (max) bobbing on the y-axis");
+ConVar cl_shotgun_primarybob_max_z("cl_shotgun_primarybob_max_z", "0.5", 0, "Intensity of the gun (max) bobbing on the z-axis");
+
+
 #ifdef MAPBASE
 extern ConVar sk_plr_num_shotgun_pellets_double;
 extern ConVar sk_npc_num_shotgun_pellets;
@@ -91,6 +107,8 @@ public:
 
 	CWeaponShotgun(void);
 };
+
+
 
 IMPLEMENT_SERVERCLASS_ST(CWeaponShotgun, DT_WeaponShotgun)
 END_SEND_TABLE()
@@ -525,8 +543,12 @@ void CWeaponShotgun::Pump( void )
 	// Finish reload animation
 	SendWeaponAnim( ACT_SHOTGUN_PUMP );
 
+	float xoffset = cl_shotgun_pumpbob_x.GetFloat();
+	float yoffset = cl_shotgun_pumpbob_y.GetFloat();
+	float zoffset = cl_shotgun_pumpbob_z.GetFloat();
+
 	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
-	pPlayer->ViewPunch(QAngle(random->RandomFloat(0, 0), random->RandomFloat(-0.5, 0.5), random->RandomFloat(-0.3, 0.3)));
+	pPlayer->ViewPunch(QAngle(xoffset, yoffset, zoffset));
 
 	pOwner->m_flNextAttack	= gpGlobals->curtime + SequenceDuration();
 	m_flNextPrimaryAttack	= gpGlobals->curtime + SequenceDuration();
@@ -586,8 +608,15 @@ void CWeaponShotgun::PrimaryAttack( void )
 	// Fire the bullets, and force the first shot to be perfectly accuracy
 	pPlayer->FireBullets( sk_plr_num_shotgun_pellets.GetInt(), vecSrc, vecAiming, GetBulletSpread(), MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 0, -1, -1, 0, NULL, true, true );
 
+	float min_xoffset = cl_shotgun_primarybob_min_x.GetFloat();
+	float min_yoffset = cl_shotgun_primarybob_min_y.GetFloat();
+	float min_zoffset = cl_shotgun_primarybob_min_z.GetFloat();
 
-	pPlayer->ViewPunch(QAngle(random->RandomFloat(-4, -1), random->RandomFloat(-2, 2), random->RandomFloat(-2, 2)));
+	float max_xoffset = cl_shotgun_primarybob_max_x.GetFloat();
+	float max_yoffset = cl_shotgun_primarybob_max_y.GetFloat();
+	float max_zoffset = cl_shotgun_primarybob_max_z.GetFloat();
+
+	pPlayer->ViewPunch(QAngle(random->RandomFloat(min_xoffset, max_xoffset), random->RandomFloat(min_yoffset, max_yoffset), random->RandomFloat(min_zoffset, max_zoffset)));
 
 	CSoundEnt::InsertSound( SOUND_COMBAT, GetAbsOrigin(), SOUNDENT_VOLUME_SHOTGUN, 0.2, GetOwner() );
 
