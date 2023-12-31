@@ -416,6 +416,14 @@ void CWeaponSMG1::AddViewKick( void )
 	if ( pPlayer == NULL )
 		return;
 
+	QAngle angles = pPlayer->GetLocalAngles();
+
+	angles.x += random->RandomInt(-0.2, 0);
+	angles.y += 0;
+	angles.z = 0;
+
+	pPlayer->SnapEyeAngles(QAngle(angles));
+
 	DoMachineGunKick( pPlayer, EASY_DAMPEN, MAX_VERTICAL_KICK, m_fFireDuration, SLIDE_LIMIT );
 }
 

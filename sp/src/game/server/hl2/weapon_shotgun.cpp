@@ -41,9 +41,9 @@ ConVar cl_shotgun_primarybob_max_x("cl_shotgun_primarybob_max_x", "-3", 0, "Inte
 ConVar cl_shotgun_primarybob_max_y("cl_shotgun_primarybob_max_y", "-2.6", 0, "Intensity of the gun (max) bobbing on the y-axis");
 ConVar cl_shotgun_primarybob_max_z("cl_shotgun_primarybob_max_z", "-1.2", 0, "Intensity of the gun (max) bobbing on the z-axis");
 
-ConVar cl_shotgun_primarybob_static_x("cl_shotgun_primarybob_static_x", "0", 0, "Intensity of the gun (static) bobbing on the x-axis");
+ConVar cl_shotgun_primarybob_static_x("cl_shotgun_primarybob_static_x", "-3", 0, "Intensity of the gun (static) bobbing on the x-axis");
 ConVar cl_shotgun_primarybob_static_y("cl_shotgun_primarybob_static_y", "0", 0, "Intensity of the gun (static) bobbing on the y-axis");
-ConVar cl_shotgun_primarybob_static_z("cl_shotgun_primarybob_static_z", "0", 0, "Intensity of the gun (static) bobbing on the z-axis");
+ConVar cl_shotgun_primarybob_static_z("cl_shotgun_primarybob_static_z", "0.5", 0, "Intensity of the gun (static) bobbing on the z-axis");
 
 
 #ifdef MAPBASE
@@ -633,6 +633,14 @@ void CWeaponShotgun::PrimaryAttack( void )
 	else{
 		pPlayer->ViewPunch(QAngle(random->RandomFloat(min_xoffset, max_xoffset), random->RandomFloat(min_yoffset, max_yoffset), random->RandomFloat(min_zoffset, max_zoffset)));
 	}
+
+	QAngle angles = pPlayer->GetLocalAngles();
+
+	angles.x += random->RandomInt(-2, 0);
+	angles.y += 0;
+	angles.z = 0;
+
+	pPlayer->SnapEyeAngles(QAngle(angles));
 	
 
 	CSoundEnt::InsertSound( SOUND_COMBAT, GetAbsOrigin(), SOUNDENT_VOLUME_SHOTGUN, 0.2, GetOwner() );
